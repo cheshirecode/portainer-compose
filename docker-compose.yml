@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 services:
   proxy:
@@ -6,6 +6,7 @@ services:
     container_name: "portainer-proxy"
     ports:
       - "80:80"
+      - "443:443"
     networks:
       - local
 
@@ -16,10 +17,10 @@ services:
       - local
 
   portainer:
-    image: portainer/portainer
+    image: portainer/portainer:1.18.0
     container_name: "portainer-app"
 #Automatically choose 'Manage the Docker instance where Portainer is running' by adding <--host=unix:///var/run/docker.sock> to the command
-    command: --templates http://templates/templates.json
+    command: --templates http://templates/templates.json -H unix:///var/run/docker.sock
     networks:
       - local
     volumes:
